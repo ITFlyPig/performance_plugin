@@ -5,6 +5,8 @@ import com.easybug.plugint.util.LogUtil
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
+import java.security.cert.Extension
+
 /**
  * 绝对不能使用依赖的方式依赖插件，会报错，插件和Library是不一样的
  */
@@ -15,14 +17,29 @@ class AopLogPlugin implements Plugin<Project> {
     void apply(Project project) {
         init(project)
 
+        //读取自定义配置
+         project.extensions.create("aop", AopExtension)
+//        LogUtil.e("这里配置时期就执行了")
+//
+//        project.task("taskTest", {
+//            LogUtil.e("这里配置阶段就执行" + config.isAop)
+//            doFirst {
+//                LogUtil.e("这里执行阶段才执行" + config.isAop)
+//            }
+//        })
+//        project.afterEvaluate {
+//            LogUtil.e("这里配置完才执行")
+//        }
+//
+
+
+//        project.afterEvaluate {
+//            LogUtil.e("开始输出属性" + config.isAop)
+//            LogUtil.e("isAop:" + config.isAop)
+//        }
         LogUtil.e("开始添加切面代码")
-//        def android = project.extensions.findByType(AppExtension.class)
-//        android.registerTransform(new PreClass(project))
-
-        AopConfig aopConfig = getConfig(project)
-
-        println "aopConfig.isDebug:" +  aopConfig.isDebug
-        project.android.registerTransform(new PreClass(aopConfig, project))
+        AopConfig config = getConfig(project)
+        project.android.registerTransform(new PreClass(config, project))
 
     }
 
@@ -35,18 +52,13 @@ class AopLogPlugin implements Plugin<Project> {
         if (project == null) {
             return
         }
-
-        AopExtension aopExtension = project.extensions.create("Aop", AopExtension)
-
-
         ArrayList<String> needPackages = new ArrayList<>()
         needPackages.add("com.talk51")
 
-        AopConfig aopConfig = new AopConfig.Builder()
-                .setDebug(true)
-                .setAop(true)
-                .setNeedPages(needPackages)
-                .build()
+        AopConfig aopConfig = new AopConfig()
+        aopConfig.isDebug = true
+        aopConfig.isAop = true;
+        aopConfig.needPackages = needPackages
         return aopConfig
 
     }

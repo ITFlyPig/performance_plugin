@@ -31,3 +31,22 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+this.gradle.buildStarted {
+    println('buildStarted')
+}
+this.gradle.settingsEvaluated {
+    println('settingsEvaluated')
+}
+
+this.gradle.projectsLoaded {
+    println('projectsLoaded')
+}
+
+this.gradle.projectsEvaluated {
+    println('projectsEvaluated')
+}
+
+this.gradle.buildFinished {
+    println('projectsEvaluated')
+}

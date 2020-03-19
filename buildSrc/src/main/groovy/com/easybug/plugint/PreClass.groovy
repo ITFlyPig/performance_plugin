@@ -34,7 +34,7 @@ class PreClass extends Transform {
 
     @Override
     Set<? super QualifiedContent.Scope> getScopes() {
-        return Sets.immutableEnumSet(QualifiedContent.Scope.PROJECT, QualifiedContent.Scope.SUB_PROJECTS, QualifiedContent.Scope.EXTERNAL_LIBRARIES, )
+        return Sets.immutableEnumSet(QualifiedContent.Scope.PROJECT,)
     }
 
     @Override
@@ -47,6 +47,9 @@ class PreClass extends Transform {
                    Collection<TransformInput> referencedInputs,
                    TransformOutputProvider outputProvider, boolean isIncremental)
             throws IOException, TransformException, InterruptedException {
+        //能获取到扩展配置
+        println(project.extensions.aop.isAop)
+
         // Transform的inputs有两种类型，一种是目录，一种是jar包，要分开遍历
         inputs.each { TransformInput input ->
             try {
