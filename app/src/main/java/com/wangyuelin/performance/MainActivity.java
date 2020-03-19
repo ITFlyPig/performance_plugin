@@ -1,12 +1,16 @@
 package com.wangyuelin.performance;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.wangyuelin.aop.RenderType;
+import com.wangyuelin.aop.RenderingUtil;
+import com.wangyuelin.aop.TaskQueue;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -22,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        RenderingUtil.onCreate("com.wangyuelin.performance.MainActivity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -54,10 +59,37 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
+    @Override
+    protected void onResume() {
+        RenderingUtil.onRenderingEnd("com.wangyuelin.performance.MainActivity", RenderType.ACTIVITY);
+        super.onResume();
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    private void startLoop() {
+         int count = 0;
+        while (true) {
+            count++;
+            final int finalCount = count;
+            TaskQueue.addTask(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d("wyl", "我是任务：" + finalCount);
+                }
+            });
+
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

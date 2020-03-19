@@ -1,2 +1,3 @@
 rootProject.name='performance_plugin'
 include ':app', ':buildSrc'
+include ':aop'
