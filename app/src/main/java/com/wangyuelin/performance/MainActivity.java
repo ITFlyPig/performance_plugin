@@ -85,11 +85,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

@@ -11,7 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class TaskQueue {
     private static LinkedBlockingQueue<Runnable> taskQueue = new LinkedBlockingQueue<>();
-    private static final int MAX = 10;//最多存100个
+    private static final int MAX = 100;//最多存100个
     private static volatile boolean isInit;//是否初始化了
     private static volatile boolean stop;//是否停止
 
@@ -49,11 +49,6 @@ public class TaskQueue {
                     try {
                         Runnable task = taskQueue.take();
                         task.run();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
