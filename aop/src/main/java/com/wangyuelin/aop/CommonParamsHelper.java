@@ -37,7 +37,7 @@ public class CommonParamsHelper {
             //开始获取参数
             Context context = EasyPerformance.getContext();
             if(context != null) {
-                initPackageInfo(context);
+                initSysInfo(context);
                 commonParamsStatic.put("appName", appName);
                 commonParamsStatic.put("packageName", packageName);
                 commonParamsStatic.put("versionName", versionName);
@@ -60,9 +60,9 @@ public class CommonParamsHelper {
     private String sysVersion;//系统版本号
 
     /**
-     * 初始化包相关的信息
+     * 初始化系统相关的信息
      */
-    private void initPackageInfo(Context context) {
+    private void initSysInfo(Context context) {
         if(context == null) {
             return;
         }

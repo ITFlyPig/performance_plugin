@@ -2,7 +2,8 @@ package com.wangyuelin.aop;
 
 import android.text.TextUtils;
 
-import java.security.cert.CRLException;
+import com.wangyuelin.aop.log.RenderingBean;
+
 import java.util.HashMap;
 import java.util.Map;
 
